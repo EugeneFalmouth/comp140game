@@ -9,9 +9,15 @@ public class PlayerController : MonoBehaviour
 
     private Camera cam;
 
+    [SerializeField]
+    private Transform quickdrawSpawnPoint;
+    [SerializeField]
+    private Transform dogpileSpawnPoint;
+
     void Start()
     {
         cam = GetComponentInChildren<Camera>();
+        ResolveSpawnPosition();
     }
 
     // Update is called once per frame
@@ -27,6 +33,20 @@ public class PlayerController : MonoBehaviour
                     hit.collider.gameObject.GetComponent<EnemyScript>().Die();
                 }
             }
+        }
+    }
+
+    private void ResolveSpawnPosition()
+    {
+        if (Manager.choice == Manager.GameChoice.quickdraw)
+        {
+            gameObject.transform.position = quickdrawSpawnPoint.position;
+            gameObject.transform.rotation = quickdrawSpawnPoint.rotation;
+        }
+        else if (Manager.choice == Manager.GameChoice.dogpile)
+        {
+            gameObject.transform.position = dogpileSpawnPoint.position;
+            gameObject.transform.rotation = dogpileSpawnPoint.rotation;
         }
     }
 }
