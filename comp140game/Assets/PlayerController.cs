@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class PlayerController : MonoBehaviour
     private Transform quickdrawSpawnPoint;
     [SerializeField]
     private Transform dogpileSpawnPoint;
+
+    [SerializeField]
+    private Image crosshair;
+
+    [SerializeField]
+    private GameObject weapon;
 
     void Start()
     {
@@ -34,6 +41,12 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        Vector3 mousePos = Input.mousePosition;
+        crosshair.rectTransform.position = mousePos;
+        mousePos.z = 0.4f;
+        weapon.transform.position = cam.ScreenToWorldPoint(mousePos);
+        weapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y - 0.3f, weapon.transform.position.z);
     }
 
     private void ResolveSpawnPosition()
