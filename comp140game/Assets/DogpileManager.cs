@@ -18,6 +18,12 @@ public class DogpileManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //If the other game mode was selected, disable the functionality of this one
+        if (Manager.choice != Manager.GameChoice.dogpile)
+        {
+            gameObject.SetActive(false);
+        }
+
         enemySpawnLocations = new List<Vector3>();
         enemyMoveLocations = new List<Vector3>();
         for (int i = 0; i < enemies.Length; i++)

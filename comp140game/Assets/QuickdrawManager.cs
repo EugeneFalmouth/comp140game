@@ -26,6 +26,12 @@ public class QuickdrawManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //If the other game mode was selected, disable the functionality of this one
+        if (Manager.choice != Manager.GameChoice.quickdraw)
+        {
+            gameObject.SetActive(false);
+        }
+
         deathTimer = Random.Range(1f, 3f);
     }
 
