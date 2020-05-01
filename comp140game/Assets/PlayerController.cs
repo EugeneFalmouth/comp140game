@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float fireDistance = 100f;
-
-    private Camera cam;
+    private float fireDistance = 1000f;
 
     [SerializeField]
     private Transform quickdrawSpawnPoint;
@@ -21,23 +19,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject weapon;
 
+    [SerializeField]
+    private Camera cam;
+
     void Start()
     {
-        cam = GetComponentInChildren<Camera>();
         ResolveSpawnPosition();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, fireDistance))
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, fireDistance))
+            if (Input.GetButtonDown("Fire1"))
             {
                 if (hit.collider.gameObject.CompareTag("Enemy"))
                 {
-                    hit.collider.gameObject.GetComponent<EnemyScript>().Die();
+                        hit.collider.gameObject.GetComponent<EnemyScript>().Die();
                 }
             }
         }
@@ -47,6 +48,15 @@ public class PlayerController : MonoBehaviour
         mousePos.z = 0.4f;
         weapon.transform.position = cam.ScreenToWorldPoint(mousePos);
         weapon.transform.position = new Vector3(weapon.transform.position.x, weapon.transform.position.y - 0.3f, weapon.transform.position.z);
+
+        //Vector3 weaponDirection = transform.right;
+        //weaponDirection *= -100;
+        //Debug.Log("pre-position: " + weaponDirection);
+        //weaponDirection = new Vector3(weapon.transform.position.x, weapon.transform.position.y, weaponDirection.z);
+        //Debug.Log("post-position: " + weaponDirection);
+        //weapon.transform.LookAt(weaponDirection);
+
+        weapon.transform.LookAt(hit.point);
     }
 
     private void ResolveSpawnPosition()
