@@ -18,6 +18,6 @@ public class EnemyScript : MonoBehaviour
     {
         //Work in progress. Add animation or motion of dying
         ui.UpdateScore(scoreReward);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
